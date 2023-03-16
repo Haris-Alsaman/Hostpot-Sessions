@@ -1,0 +1,22 @@
+:do {
+:local xs $user
+:local y [/ip hotspot active get [find where user=$xs and uptime<30] address]
+:local f [/ip hotspot host get [find to-address=$y] address];
+:local n [/ip dhcp-server lease get [find address=$f] host-name];
+:local s [/ip dhcp-server lease get [find address=$f] mac-address];
+:local date [ /system clock get date ];
+:local da [ /system clock get time ];
+:local fi Reports_user;
+:local c [:len [/file find name~"Reports"]];
+:local v ($c+1)
+:local t  [/file get ("$fi$v") contents];
+:local mm ("$t\r\
+\nUser:$xs__MAC:$s__Hostname:$n__Time:$date_$da__Entry")
+:do {
+/file set ("$fi$v") contents=("$mm")
+} on-error={
+:local mc ($c+2)
+/system identity print file=("$fi$mc")
+delay 2s
+/file set ("$fi$mc") contents=("User:$xs#MAC:$s#Hostname:$n#Time:$date_$da__Entry")
+};};
