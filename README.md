@@ -12,16 +12,26 @@ Detecting if the cards have been breached, for example, if a specific Hostname i
 ## installation
 
 First, we put the following command in the on-login user profile:
+
+```
 /import alssman;
+```
+
 
 Secondly, we put the following command in the on-logout user profile:
+
+```
 /import alrahp
+```
+
 
 Thirdly, we put the following commands in the new terminal:
 
+```
 /system identity print file=("Reports_user2")
 delay 2s
 /file set ("Reports_user2") contents=("")
+```
 
 
 ## images
